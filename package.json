@@ -1,0 +1,14 @@
+{
+  "name": "samuraibs-tests",
+  "version": "1.0.0",
+  "description": "Projeto de testes de aceitação de ponta a ponta em Cypress",
+  "main": "index.js",
+  "author": "Jaqueline Beneduzzi",
+  "license": "MIT",
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "cypress": "^12.17.3",
+    "pg": "^8.11.3",
+    "dotenv": "^16.3.1"
+  }
+}

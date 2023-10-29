@@ -124,7 +124,7 @@ describe('cadastro', function () {
             'Senha é obrigatória'
         ]
 
-        before(function(){
+        beforeEach(function(){
             signupPage.go()
             signupPage.submit()
         })

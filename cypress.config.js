@@ -33,7 +33,7 @@ module.exports = defineConfig({
   
     baseUrl: 'http://localhost:3000',
     chromeWebSecurity: false,
-    testIsolation: false
+    testIsolation: true
   },
 
   viewportWidth: 1366,

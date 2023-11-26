@@ -1,0 +1,24 @@
+{
+    "success": {
+        "name": "Teste A",
+        "email": "teste@teste.com",
+        "password": "pwd123"
+    },
+    "email_dup": {
+        "name": "Teste B",
+        "email": "testeb@teste.com",
+        "password": "pwd123",
+        "is_provider": true
+    },
+    "email_inv": {
+        "name": "Teste C",
+        "email": "testec.teste.com",
+        "password": "pwd123",
+        "is_provider": true
+    },
+    "short_password": {
+        "name": "Teste D",
+        "email": "tested@teste.com",
+        "password": null
+    }
+}

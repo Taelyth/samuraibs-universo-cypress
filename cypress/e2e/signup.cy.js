@@ -3,15 +3,19 @@ import signupPage from '../support/pages/signup'
 
 describe('cadastro', function () {
 
+    before(function () {
+        cy.fixture('signup').then(function(signup){
+            this.success = signup.success
+            this.email_dup = signup.email_dup
+            this.email_inv = signup.email_inv
+            this.short_password = signup.short_password
+        })
+    })
+
     context('quando o usuário é novato', function () {
-        const user = {
-            name: 'Teste A',
-            email: 'teste@teste.com',
-            password: 'pwd123'
-        }
 
         before(function () {
-            cy.task('removeUser', user.email)
+            cy.task('removeUser', this.success.email)
                 .then(function (result) {
                     console.log(result)
                 })
@@ -23,7 +27,7 @@ describe('cadastro', function () {
             //const email = faker.internet.email() -> Faker removido pois iremos usar um mock para validar o cadastro
             signupPage.go()
 
-            signupPage.form(user)
+            signupPage.form(this.success)
             // test usando mock do backend, removido para incluir acesso ao banco de dados que remove o usuário.
             // cy.intercept('POST', '/users', {
             //     statusCode: 200
@@ -40,34 +44,15 @@ describe('cadastro', function () {
     })
 
     context('quanto o email já existe', function () {
-        const user = {
-            name: 'Teste B',
-            email: 'testeb@teste.com',
-            password: 'pwd123',
-            is_provider: true
-        }
-
+        
         before(function () {
-            // removendo usuário no DB para deixar a massa de testes válida
-            cy.task('removeUser', user.email)
-                .then(function (result) {
-                    console.log(result)
-                })
-
-            // fazer requests usando cypress para criar massa de dados
-            cy.request(
-                'POST',
-                'http://localhost:3333/users',
-                user
-            ).then(function (response) {
-                expect(response.status).to.eq(200)
-            })
+            cy.postUser(this.email_dup)
         })
 
         it('não deve cadastrar o usuário', function () {
 
             signupPage.go()
-            signupPage.form(user)
+            signupPage.form(this.email_dup)
             signupPage.submit()
             signupPage.toast.shouldHaveText('Email já cadastrado para outro usuário.')
 
@@ -75,17 +60,12 @@ describe('cadastro', function () {
     })
 
     context('quando o email é incorreto', function () {
-        const user = {
-            name: 'Teste C',
-            email: 'testec.teste.com',
-            password: 'pwd123'
-        }
 
         it('deve exibir mensagem de alerta', function () {
             signupPage.go()
-            signupPage.form(user)
+            signupPage.form(this.email_inv)
             signupPage.submit()
-            signupPage.alertHaveText('Informe um email válido')
+            signupPage.alert.haveText('Informe um email válido')
         })
 
     })
@@ -100,19 +80,15 @@ describe('cadastro', function () {
 
         passwords.forEach(function(p){
             it('não deve cadastrar com a senha: '+ p, function(){
-                const user = {
-                    name: 'Teste D',
-                    email: 'tested@teste.com',
-                    password: p
-                }
+                this.short_password.password = p
 
-                signupPage.form(user)
+                signupPage.form(this.short_password)
             })
         })
 
         afterEach(function(){
             signupPage.submit()
-            signupPage.alertHaveText('Pelo menos 6 caracteres')
+            signupPage.alert.haveText('Pelo menos 6 caracteres')
         })
 
     })
@@ -131,7 +107,7 @@ describe('cadastro', function () {
 
         alertMessages.forEach(function(alert){
             it('deve exibir ' + alert.toLowerCase(), function(){
-                signupPage.alertHaveText(alert)
+                signupPage.alert.haveText(alert)
             })
         })
     })

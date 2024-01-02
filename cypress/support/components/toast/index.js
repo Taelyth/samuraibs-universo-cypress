@@ -4,6 +4,7 @@ class Toast {
     shouldHaveText(expectedText) {
         cy.get(el.toast, {timeout: 10000})
             .should('be.visible')
+            .and('have.css', 'opacity', '1', {timeout: 1500})
             .find('p')
             .should('have.text', expectedText)
     }

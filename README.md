@@ -29,7 +29,7 @@ Projeto criado para automatizar **testes web** utilizando **Cypress**.
 yarn install
 ```
 - Iniciar as aplicações WEB e API.
-    - Para isso foi adicionado um zip contendo ambos os projetos: [samuraibs-apps.zip](util\samuraibs-apps.zip)
+    - Para isso foi adicionado um zip contendo ambos os projetos: [samuraibs-apps.zip](util/samuraibs-apps.zip)
     - O projeto deverá ser extraído, e então executado pelo comando `yarn start` abrindo a pasta de ambos.
 -  Iniciar o Cypress usando o comando:
 ```
